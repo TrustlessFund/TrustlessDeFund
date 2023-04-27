@@ -48,7 +48,7 @@ Everyone can be a fund manager to set up a new crypto fund (Not only crypto) in 
     - Check my reward|loss next time
 
 
-## Trustless Fund Contacts:
+## Trustless Fund Contracts:
 - Core Contract
     - Main Router
         - Storage Actions
@@ -88,3 +88,38 @@ Everyone can be a fund manager to set up a new crypto fund (Not only crypto) in 
         - Funds Action History
             - Delay TimeStamp Publish
     
+## Support Pairs
+- Stable
+    - USDT | USDC | DAI | FRAX | BUSD
+
+- Hold | Swap
+    - WETH | WBTC | CURVE | STG | UNI | LINK | SOL 
+
+- Leverage
+    - ETH | BTC | UNI | CURVE | LINK | LTC | XMR | EUR 
+
+- Farm
+    - $stable
+
+## Support Protocol
+
+- Support Action Types
+    - Hold
+    - Swap
+    - Leverage
+    - Farm
+
+- Support Protocol
+    - Hold
+        - Local vault
+    - Swap
+        - Uniswap | UniLike
+        - Pancake
+        - Curve
+    - Leverage
+        - GMX | GNS
+    - Farm
+        - Beefy
+        - Stargate
+        - Venus
+        - Pancake
