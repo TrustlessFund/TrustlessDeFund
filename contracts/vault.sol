@@ -13,10 +13,39 @@ import "@openzeppelin/contracts/access/Ownable.sol";
         function approve(address spender, uint256 amount) external returns (bool);
         function transfer(address to, uint256 amount) external returns (bool);
     }
-
-    interface Farm{
+/**
+Farm type interface
+ */
+    interface BeefyFarm{
         
     }
+
+/**
+Swap type interface
+ */
+    interface IUniswapV2Router {
+    function getAmountsOut(uint256 amountIn, address[] memory path) external view returns (uint256[] memory amounts);
+    function swapExactTokensForTokens(uint256 amountIn, uint256 amountOutMin, address[] calldata path, address to, uint256 deadline) external returns (uint256[] memory amounts);
+    }
+
+    interface Icurve {
+        function get_dy_underlying (uint128 i,uint128 j,uint256 dx) external view returns (uint256);
+        function exchange (uint128 i,uint128 j,uint256 dx,uint256 mini_dy) external ;
+        function exchange_underlying (uint128 i,uint128 j,uint256 dx,uint256 mini_dy) external ;
+    }
+
+/**
+Leverage type interface
+ */
+    interface GMX{
+
+    }
+
+    interface GNS{
+
+    }
+
+
 contract vault is Ownable{
 /** Vault settings */
 
@@ -35,7 +64,14 @@ contract vault is Ownable{
     }
 
 /** Deposit system */
-    function deposit(address user,uint farm,uint256 amount) public onlyOwner returns (bool)
+/**
+    Action Type : 
+    - 0 : swap
+    - 1 : leverage
+    - 2 : farm
+ */
+
+    function deposit(address user,uint farm,uint256 amount , unit actionType ) public onlyOwner returns (bool)
     {
         IERC20(keyToken).transferFrom(user,address(this), amount);
         //TODO deposit token into farming protocol
