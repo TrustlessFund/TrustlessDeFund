@@ -58,15 +58,15 @@ Farm type interface
 Swap type interface
  */
     interface IUniswapV2Router {
-    function getAmountsOut(uint256 amountIn, address[] memory path) external view returns (uint256[] memory amounts);
-    function swapExactTokensForTokens(uint256 amountIn, uint256 amountOutMin, address[] calldata path, address to, uint256 deadline) external returns (uint256[] memory amounts);
+        function getAmountsOut(uint256 amountIn, address[] memory path) external view returns (uint256[] memory amounts);
+        function swapExactTokensForTokens(uint256 amountIn, uint256 amountOutMin, address[] calldata path, address to, uint256 deadline) external returns (uint256[] memory amounts);
     }
 
-    interface Icurve {
-        function get_dy_underlying (uint128 i,uint128 j,uint256 dx) external view returns (uint256);
-        function exchange (uint128 i,uint128 j,uint256 dx,uint256 mini_dy) external ;
-        function exchange_underlying (uint128 i,uint128 j,uint256 dx,uint256 mini_dy) external ;
-    }
+    // interface Icurve {
+    //     function get_dy_underlying (uint128 i,uint128 j,uint256 dx) external view returns (uint256);
+    //     function exchange (uint128 i,uint128 j,uint256 dx,uint256 mini_dy) external ;
+    //     function exchange_underlying (uint128 i,uint128 j,uint256 dx,uint256 mini_dy) external ;
+    // }
 
     //Stable Coin Swap
     interface Isynapase {
