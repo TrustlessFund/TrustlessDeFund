@@ -114,15 +114,21 @@ struct actionRecord {
     uint256 amount ; 
     uint256 timestamp ;
 }
+
 contract vault is Ownable{
 /** Vault settings */
 
     mapping (string => address) farmTarget;
-    address keyToken ;
 
-    constructor(address key)
+    //The core rules of this contract
+    rules private _r ; 
+
+    //The core 3 target
+    address[3] private poolAddress ;
+    
+    constructor(rules memory initRules , address[3] memory _pool)
     {
-        keyToken=key;
+
     }
 
     function setting(address target , string memory name)public onlyOwner returns (bool)
@@ -141,7 +147,7 @@ contract vault is Ownable{
 
     function deposit(address user,uint farm,uint256 amount , uint actionType ) public onlyOwner returns (bool)
     {
-        IERC20(keyToken).transferFrom(user,address(this), amount);
+        IERC20(_r.keyToken).transferFrom(user,address(this), amount);
         //TODO deposit token into farming protocol
         return true;
     }
@@ -155,7 +161,7 @@ contract vault is Ownable{
 
     function withdraws(uint256 amount) public onlyOwner returns (uint256){
         //TODO withdraws token from farming
-        IERC20(keyToken).transfer(msg.sender, amount);
+        IERC20(_r.keyToken).transfer(msg.sender, amount);
         return amount;
     }
 }
