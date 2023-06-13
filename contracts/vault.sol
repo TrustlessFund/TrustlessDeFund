@@ -90,7 +90,30 @@ Leverage type interface
 
     }
 
+/** 
+ * Lending protocol interface
+ * suit for circle staking
+ */
 
+
+/** 
+ * Flashloan protocol interface
+ * suit for AMM
+ */
+
+struct rules {
+    address owner ; 
+    uint ruleType ; // 0 : staking only ; 1 : staking + trading ; 2 : staking + trading + leverage 
+    uint[3] rulePercentage ; //0+1+2 == 10000 ; 0 : staking percentage ; 1 : trading percentage ; 2 : leverage trading percentage ;
+    address keyToken ;
+    address[3][] allowTokens ;//0 : staking token ; 1 : trading token ; 2 : leverage trading token ;
+}
+
+struct actionRecord {
+    uint action ; //0 : staking ; 1 : trading ; 2 : leverage trading ;
+    uint256 amount ; 
+    uint256 timestamp ;
+}
 contract vault is Ownable{
 /** Vault settings */
 
