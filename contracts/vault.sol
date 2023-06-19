@@ -144,9 +144,11 @@ struct actionRecord {
 }
 
 contract vault is Ownable{
-/** Vault settings */
+    using SafeMath for uint256;
+    /** Vault settings */
 
-    mapping (string => address) farmTarget;
+    //The money percentage for rules
+    uint256[3] private balancePercentage;
 
     //The core rules of this contract
     rules private _r ; 
@@ -154,17 +156,41 @@ contract vault is Ownable{
     //The core 3 target
     address[3] private poolAddress ;
     
-    constructor(rules memory initRules , address[3] memory _pool)
+    constructor(rules memory initRules , address[3] memory _pool , address _operator)
     {
+        verfiRules(initRules);
+        _r = initRules ; 
+        _r.owner = _operator;
+        poolAddress = _pool;
 
     }
 
-    function setting(address target , string memory name)public onlyOwner returns (bool)
-    {
-        farmTarget[name] = target;
-        return true;
-    }
 
+/**
+ * Actions functions
+ */
+function farming()public {
+    verfiOwner();
+
+    //Approve the usage to target contract first
+    
+
+    //Stake the target token into starget first
+
+}
+
+/**
+ * Verfication functions
+ */
+function verfiRules (rules memory r) public pure {
+    require(r.ruleType<2 &&
+     (r.rulePercentage[0]+r.rulePercentage[1]+r.rulePercentage[2])==1000
+     );
+}
+
+function verfiOwner() public view{
+    require(_r.owner == msg.sender);
+}
 /** Deposit system */
 /**
     Action Type : 
@@ -173,10 +199,21 @@ contract vault is Ownable{
     - 2 : farm
  */
 
-    function deposit(address user,uint farm,uint256 amount , uint actionType ) public onlyOwner returns (bool)
+    function deposit(address user,uint256 amount , uint actionType ) public onlyOwner returns (bool)
     {
         IERC20(_r.keyToken).transferFrom(user,address(this), amount);
         //TODO deposit token into farming protocol
+        for(uint i = 0 ; i < _r.rulePercentage.length ; i ++)
+        {
+            //Setting the percentage of the fund using everytime
+            balancePercentage[i]=balancePercentage[i].add(amount.mul(_r.rulePercentage[i]).div(10000));
+        }
+        //Stake if nessary 
+        if(balancePercentage[0]>0)
+        {
+            //TODO stake the token into stargate
+            
+        }
         return true;
     }
 
@@ -192,4 +229,17 @@ contract vault is Ownable{
         IERC20(_r.keyToken).transfer(msg.sender, amount);
         return amount;
     }
+/**
+ * Read Only Functions 
+ */
+
+    function getRules() public view returns (rules memory)
+    {
+        return _r;
+    }
+    function getBalance() public view returns (uint[3] memory)
+    {
+        return balancePercentage;
+    }
+
 }
