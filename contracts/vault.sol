@@ -169,16 +169,35 @@ contract vault is Ownable{
 /**
  * Actions functions
  */
-function farming()public {
+function farming(uint256 amount)public {
     verfiOwner();
 
-    //Approve the usage to target contract first
+    //Approve the usage to target contract 
     
 
-    //Stake the target token into starget first
+    //Stake the target token into stargate for lptoken
+
+    //Approve the usage of lptoken
+
+    //Farm lptoken into stargate
 
 }
 
+function swapTo(uint256 amount)public{
+
+}
+
+function swapFrom(uint256 amount)public{
+
+}
+
+function openPosition(uint256 amount)public{
+
+}
+
+function closePosition(uint256 amount)public{
+
+}
 /**
  * Verfication functions
  */
@@ -209,10 +228,10 @@ function verfiOwner() public view{
             balancePercentage[i]=balancePercentage[i].add(amount.mul(_r.rulePercentage[i]).div(10000));
         }
         //Stake if nessary 
-        if(balancePercentage[0]>0)
+        uint256 _f = amount.mul(_r.rulePercentage[0]).div(10000);
+        if(_f>0)
         {
-            //TODO stake the token into stargate
-            
+            farming(_f);            
         }
         return true;
     }
